@@ -9,6 +9,7 @@
     "htmlImages": "npm install --save-dev html-loader",
     "dev": "npm install --save-dev webpack-dev-server",
     "merge": "npm install --save-dev webpack-merge",
+    
     "start": "webpack serve --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
