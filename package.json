@@ -1,0 +1,28 @@
+{
+  "name": "todo-list",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "webpack": "npm install --save-dev webpack webpack-cli",
+    "html": "npm install --save-dev html-webpack-plugin",
+    "css": "npm install --save-dev style-loader css-loader",
+    "htmlImages": "npm install --save-dev html-loader",
+    "dev": "npm install --save-dev webpack-dev-server",
+    "merge": "npm install --save-dev webpack-merge",
+    "start": "webpack serve --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.3",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0",
+    "webpack-merge": "^6.0.1"
+  }
+}
