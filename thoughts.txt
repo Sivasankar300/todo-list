@@ -1,0 +1,9 @@
+First make a project
+- They serve as categories, and upon clicking on will load it's content (tasks) dynamically via JS
+Ability to make new Projects
+New tasks can be made then assigned to a specific project
+
+Modules:
+- displayController
+- makeProjects
+- makeTasks
