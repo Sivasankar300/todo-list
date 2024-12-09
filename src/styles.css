@@ -35,8 +35,22 @@
     }
 
     html,body{
-        
+        height:100%;
         
     }
 
   /* CSS reset over */
+
+  #container{
+    height:100%;
+    display:grid;
+    grid-template-columns: 20% 80%;
+  }
+
+  #sideBar{
+    grid-column: 1;
+  }
+
+  #tasks,#taskInput{
+    grid-column: 2;
+  }
