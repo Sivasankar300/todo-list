@@ -1,6 +1,6 @@
 export {displayController}
-import { newProject,storeProjects } from "./projects";
-import { newTask,storeTask } from "./tasks";
+import { projectsArray} from "./projects";
+import { newTask} from "./tasks";
 
 const displayController = (function(){
         const inputForm = document.querySelector("#taskInput");
@@ -10,11 +10,12 @@ const displayController = (function(){
         const newProjectBtn = document.querySelector("#newProjectBtn");
         const sideBar = document.querySelector("#sideBar");
         const tasksArea = document.querySelector("#tasks")
+        let counter = 0;
 
         newProjectBtn.addEventListener("click",createProject);
 
         function createProject(){
-            newProject("defaultProject");
+            projects.newProject("defaultProject",[]);
             const newProjectVar = document.createElement("button");
             newProjectVar.textContent = "new project";
             newProjectVar.classList.add("project");
@@ -22,7 +23,9 @@ const displayController = (function(){
         }
 
         (function displayProject(){
-            for(const item of storeProjects.getArray()){
+         
+            
+            for(const item of projectsArray.getArray()){
                 const currentProject = document.createElement("button");
                 currentProject.textContent = item.name;
                 currentProject.classList.add("project");
@@ -33,29 +36,44 @@ const displayController = (function(){
         (function hideForm(){
             const newTaskBtn = document.querySelector("#newTaskBtn");
             newTaskBtn.addEventListener("click",displayInput);
+             
 
             function displayInput(){
                 inputForm.style.display = "block";
+
             }
             
         })();
 
-        (function formSubmit(){
-            const submitBtn = document.querySelector("#submit");
-            submitBtn.addEventListener("click", (event) =>  {
-                event.preventDefault();
+        (function updateProjectList(){
+            const projectInput = document.querySelector("#project")
+          
+            projectsArray.getArray().forEach(function(item){
+                const createItem = document.createElement("option")
+                createItem.setAttribute("value",item.name)
+                createItem.textContent = item.name;
+                projectInput.appendChild(createItem)
+            })
+        })();
 
+        (function createTask(){
+                const submitBtn = document.querySelector("#submit");
+
+                submitBtn.addEventListener("click", (event) =>  {
+                event.preventDefault();
+                const taskCount = "task"+counter;
                 const title = document.querySelector("#title").value;
                 const description = document.querySelector("#description").value;
                 const dueDate = document.querySelector("#dueDate").value;
                 const priority = document.querySelector("#priority").value;
                 const project = document.querySelector("#project").value;
+                counter++
 
-                storeTask(newTask(title,description,dueDate,priority,project))
+                projectsArray.storeTask(newTask(title,description,dueDate,priority,project,taskCount),project)
                 displayTasks()
             })
-        })()
-        /*  */
+        })();
+        
         function displayTasks(){
             const tasksArea = document.querySelector("#tasks");
             
@@ -64,7 +82,10 @@ const displayController = (function(){
                 tasksArea.removeChild(tasksArea.lastChild);
             }
             let counter = 0;
-            storeProjects.getArray().forEach(displayTaskFn) 
+            //change this
+            const currentProjectArray = projectsArray.getCurrentProjectArray();
+            console.log(currentProjectArray)
+            currentProjectArray.forEach(displayTaskFn) 
 
             
             function displayTaskFn(item){
@@ -110,10 +131,19 @@ const displayController = (function(){
                 deleteTaskBtn.textContent = "Delete"
                 deleteTaskBtn.classList.add("delete",`task${counter}`)
                 task.appendChild(deleteTaskBtn)
+
+                const editTaskBtn = document.createElement("button")
+                editTaskBtn.textContent = "Edit"
+                editTaskBtn.classList.add("edit",`task${counter}`)
+                task.appendChild(editTaskBtn)
+
+                const saveEditedTaskBtn = document.createElement("button")
+                saveEditedTaskBtn.textContent = "Save"
+                saveEditedTaskBtn.classList.add("save",`task${counter}`)
+                task.appendChild(saveEditedTaskBtn)
                 counter++
             }
-            //reset counter
-            counter = 0;
+            
         }
 
         (function expandTask(){
@@ -147,11 +177,101 @@ const displayController = (function(){
                         nodeList[0].removeChild(nodeList[0].lastChild)
                     }
                     tasksArea.removeChild(nodeList[0])
+
+                    const taskCount = event.target.classList[1];
+                    projectsArray.deleteTask(taskCount)
                 }
+            
         });
+
         
     })();
         
+        (function editTask(){
+
+
+            tasksArea.addEventListener("click",(event)=>{
+                
+            if(event.target.classList[0]==="edit"){
+                const pointer = event.target.classList[1]
+                const className = "."+pointer;
+                const nodeList = document.querySelectorAll(className)
+
+                //Removing the text entries
+                const itemsToEdit = Array.from(nodeList).slice(1,6);
+                itemsToEdit.forEach(function (item){
+                    switch(item.classList[0]){
+                        case "title":
+                            item.textContent = "Title: ";
+                            addTextInput(item.classList[0],0)
+                            break;
+                        case "dueDate":
+                            item.textContent = "Due Date: ";
+                            addDateInput(item.classList[0],1)
+                            break;
+                        case "description":
+                            item.textContent = "Description: ";
+                            addTextInput(item.classList[0],2)
+                            break;
+                        case "priority": 
+                            item.textContent = "Priority "
+                            addTextInput(item.classList[0],3)
+                            break;
+                        case "project":
+                            item.textContent = "project"
+                            addTextInput(item.classList[0],4)
+                    }
+                    
+                })
+
+                function addTextInput(className,index){
+                    const input = document.createElement("input")
+                    const newClassName = "edited"+className;
+                    input.setAttribute("type","text")
+                    input.setAttribute("id",newClassName)
+                    
+                    itemsToEdit[index].appendChild(input)
+                }
+
+                function addDateInput(className,index){
+                    const input = document.createElement("input")
+                    const newClassName = "edited"+className;
+                    input.setAttribute("type","date")
+                    input.setAttribute("id",newClassName)
+
+                    itemsToEdit[index].appendChild(input)
+                }
+            }
+
+
+                
+
+                
+            })
+        })();
+
+        /* (function saveInput(){
+            const editedTitleInput = document.querySelector("#editedtitle").value;
+            const editedDueDateInput = document.querySelector(`#editeddueDate`).value;
+            const editedDescription = document.querySelector(`#editeddescription`).value;                    
+            const editedPriority = document.querySelector(`#editedpriority`).value;                    
+            const editedProject = document.querySelector(`#editedproject`).value;
+
+            tasksArea.addEventListener("click",(event)=>{
+                if(event.target.classList[0]==="save"){
+                    const pointer = event.target.classList[1];
+                    
+                    
+                    projects.getArrayOfProjects().forEach(function(item){
+                        console.log(item.taskCount)
+                        console.log("pointer: "+pointer)
+                        if(item.taskCount === pointer){
+                            projects.editTask(editedTitleInput,title,pointer)
+                        }
+                    })
+                }
+            })
+        })(); */
         
             
     })();
