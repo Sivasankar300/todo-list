@@ -81,7 +81,6 @@ const displayController = (function(){
             while (tasksArea.firstChild) {
                 tasksArea.removeChild(tasksArea.lastChild);
             }
-            let counter = 0;
             //change this
             const currentProjectArray = projectsArray.getCurrentProjectArray();
             console.log(currentProjectArray)
@@ -91,57 +90,56 @@ const displayController = (function(){
             function displayTaskFn(item){
 
                 const task = document.createElement("div")
-                task.classList.add("task", `task${counter}`);
+                task.classList.add("task", `${item.taskCount}`);
                 tasksArea.appendChild(task);
 
                 const title = document.createElement("div");
                 title.textContent = "Title: "+item.title;
-                title.classList.add("title",`task${counter}`);
+                title.classList.add("title",`${item.taskCount}`);
                 task.appendChild(title);
 
                 const dueDate = document.createElement("div")
                 dueDate.textContent = "Due Date: "+item.dueDate;
-                dueDate.classList.add("dueDate",`task${counter}`)
+                dueDate.classList.add("dueDate",`${item.taskCount}`)
                 task.appendChild(dueDate);
 
                 const description = document.createElement("div");
                 description.textContent = "Description: "+item.description;
-                description.classList.add("description",`task${counter}`);
+                description.classList.add("description",`${item.taskCount}`);
                 description.style.display = "none"
                 task.appendChild(description);                
 
                 const priority = document.createElement("div")
                 priority.textContent = "Priority: " +item.priority;
-                priority.classList.add("priority",`task${counter}`)
+                priority.classList.add("priority",`${item.taskCount}`)
                 priority.style.display = "none"
                 task.appendChild(priority);
 
                 const project = document.createElement("div")
                 project.textContent = item.project;
-                project.classList.add("project",`task${counter}`)
+                project.classList.add("project",`${item.taskCount}`)
                 project.style.display = "none"
                 task.appendChild(project);
 
                 const expandTaskBtn = document.createElement("button")
                 expandTaskBtn.textContent = "Expand"
-                expandTaskBtn.classList.add("expand",`task${counter}`)
+                expandTaskBtn.classList.add("expand",`${item.taskCount}`)
                 task.appendChild(expandTaskBtn)
 
                 const deleteTaskBtn = document.createElement("button")
                 deleteTaskBtn.textContent = "Delete"
-                deleteTaskBtn.classList.add("delete",`task${counter}`)
+                deleteTaskBtn.classList.add("delete",`${item.taskCount}`)
                 task.appendChild(deleteTaskBtn)
 
                 const editTaskBtn = document.createElement("button")
                 editTaskBtn.textContent = "Edit"
-                editTaskBtn.classList.add("edit",`task${counter}`)
+                editTaskBtn.classList.add("edit",`${item.taskCount}`)
                 task.appendChild(editTaskBtn)
 
                 const saveEditedTaskBtn = document.createElement("button")
                 saveEditedTaskBtn.textContent = "Save"
-                saveEditedTaskBtn.classList.add("save",`task${counter}`)
+                saveEditedTaskBtn.classList.add("save",`${item.taskCount}`)
                 task.appendChild(saveEditedTaskBtn)
-                counter++
             }
             
         }
@@ -250,28 +248,50 @@ const displayController = (function(){
             })
         })();
 
-        /* (function saveInput(){
-            const editedTitleInput = document.querySelector("#editedtitle").value;
-            const editedDueDateInput = document.querySelector(`#editeddueDate`).value;
-            const editedDescription = document.querySelector(`#editeddescription`).value;                    
-            const editedPriority = document.querySelector(`#editedpriority`).value;                    
-            const editedProject = document.querySelector(`#editedproject`).value;
-
+        (function saveInput(){
+            
+            
+            
+            
             tasksArea.addEventListener("click",(event)=>{
                 if(event.target.classList[0]==="save"){
-                    const pointer = event.target.classList[1];
+                const editedTitleInput = document.querySelector("#editedtitle").value;
+                const editedDueDateInput = document.querySelector(`#editeddueDate`).value;
+                const editedDescriptionInput = document.querySelector(`#editeddescription`).value;                    
+                const editedPriorityInput = document.querySelector(`#editedpriority`).value;                    
+                const editedProjectInput = document.querySelector(`#editedproject`).value;
+
+                const inputsList = []
+                function inputsListObjects(inputValue,inputType){
+                    return {inputValue,inputType}
+                }
+                const title = inputsListObjects(editedTitleInput,"title");
+                const dueDate = inputsListObjects(editedDueDateInput,"dueDate")
+                const description = inputsListObjects(editedDescriptionInput,"description")
+                const priority = inputsListObjects(editedPriorityInput,"priority")
+                const project = inputsListObjects(editedProjectInput,"project")
+
+                inputsList.push(title)
+                inputsList.push(dueDate)
+                inputsList.push(description)
+                inputsList.push(priority)
+                inputsList.push(description)
+
+                const taskCount = event.target.classList[1];
+
+                inputsList.forEach(function(item){
+                    if(item.inputValue === ""){
+
+                    }
+                    else{
+                        projectsArray.editTask(taskCount,item.inputType,item.inputValue)
+                    }
+                })
                     
                     
-                    projects.getArrayOfProjects().forEach(function(item){
-                        console.log(item.taskCount)
-                        console.log("pointer: "+pointer)
-                        if(item.taskCount === pointer){
-                            projects.editTask(editedTitleInput,title,pointer)
-                        }
-                    })
                 }
             })
-        })(); */
+        })();
         
             
     })();

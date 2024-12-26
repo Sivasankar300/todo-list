@@ -22,11 +22,11 @@ const projectsArray = (function(){
         currentProject.array.push(task)
     }
 
-    function deleteTask(task,project){
+    function deleteTask(taskCount,project){
         //Change this later
         const currentProject = projectArray[0].array;
         //Finding the index of the task
-        const index = currentProject.map(e => e.taskCount).indexOf(task)
+        const index = currentProject.map(e => e.taskCount).indexOf(taskCount)
         currentProject.splice(index,1)
     }
 
@@ -35,8 +35,16 @@ const projectsArray = (function(){
 
         return currentProject
     }
+    
+    function editTask(taskCount,inputType,inputValue){
+        const currentProject = projectArray[0].array;
+        const index = currentProject.map(e => e.taskCount).indexOf(taskCount)
+        currentProject[index][inputType] = inputValue;
+        console.log(currentProject)
+        console.log(projectArray)
+    }
 
-    return {getArray,newProject,storeTask,getCurrentProjectArray,storeTask,deleteTask}
+    return {getArray,newProject,storeTask,getCurrentProjectArray,storeTask,deleteTask,editTask}
 })()
 
 
