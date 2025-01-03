@@ -10,28 +10,36 @@ const displayController = (function(){
         const newProjectBtn = document.querySelector("#newProjectBtn");
         const sideBar = document.querySelector("#sideBar");
         const tasksArea = document.querySelector("#tasks")
-        let counter = 0;
+        let taskCounter = 0;
+        let projectCounter = 1;
+        displayProject()
 
         newProjectBtn.addEventListener("click",createProject);
 
         function createProject(){
-            projects.newProject("defaultProject",[]);
-            const newProjectVar = document.createElement("button");
-            newProjectVar.textContent = "new project";
-            newProjectVar.classList.add("project");
-            sideBar.appendChild(newProjectVar);
+ 
+            const projectName = prompt("Enter a name for the project");
+            //To prevent a empty input
+            if(projectName !== ""){
+                projectsArray.storeProject(projectName,projectCounter);
+                projectCounter++;
+                displayProject();
+            }
         }
 
-        (function displayProject(){
-         
-            
+        function displayProject(){
+            const projectsArea = document.querySelector("#projectsArea")
+            while (projectsArea.firstChild) {
+                projectsArea.removeChild(projectsArea.lastChild);
+            }
             for(const item of projectsArray.getArray()){
                 const currentProject = document.createElement("button");
                 currentProject.textContent = item.name;
-                currentProject.classList.add("project");
-                sideBar.appendChild(currentProject);
+                currentProject.classList.add(`project`, `project${item.count}`);
+                projectsArea.appendChild(currentProject);
+                updateProjectList();
             }
-        })();
+        };
 
         (function hideForm(){
             const newTaskBtn = document.querySelector("#newTaskBtn");
@@ -45,8 +53,11 @@ const displayController = (function(){
             
         })();
 
-        (function updateProjectList(){
+        function updateProjectList(){
             const projectInput = document.querySelector("#project")
+            while(projectInput.firstChild){
+                projectInput.removeChild(projectInput.lastChild)
+            }
           
             projectsArray.getArray().forEach(function(item){
                 const createItem = document.createElement("option")
@@ -54,20 +65,20 @@ const displayController = (function(){
                 createItem.textContent = item.name;
                 projectInput.appendChild(createItem)
             })
-        })();
+        };
 
         (function createTask(){
                 const submitBtn = document.querySelector("#submit");
 
                 submitBtn.addEventListener("click", (event) =>  {
                 event.preventDefault();
-                const taskCount = "task"+counter;
+                const taskCount = "task"+taskCounter;
                 const title = document.querySelector("#title").value;
                 const description = document.querySelector("#description").value;
                 const dueDate = document.querySelector("#dueDate").value;
                 const priority = document.querySelector("#priority").value;
                 const project = document.querySelector("#project").value;
-                counter++
+                taskCounter++
 
                 projectsArray.storeTask(newTask(title,description,dueDate,priority,project,taskCount),project)
                 displayTasks()
@@ -83,7 +94,6 @@ const displayController = (function(){
             }
             //change this
             const currentProjectArray = projectsArray.getCurrentProjectArray();
-            console.log(currentProjectArray)
             currentProjectArray.forEach(displayTaskFn) 
 
             
@@ -116,7 +126,7 @@ const displayController = (function(){
                 task.appendChild(priority);
 
                 const project = document.createElement("div")
-                project.textContent = item.project;
+                project.textContent = "Project: "+item.project;
                 project.classList.add("project",`${item.taskCount}`)
                 project.style.display = "none"
                 task.appendChild(project);
@@ -140,6 +150,7 @@ const displayController = (function(){
                 saveEditedTaskBtn.textContent = "Save"
                 saveEditedTaskBtn.classList.add("save",`${item.taskCount}`)
                 task.appendChild(saveEditedTaskBtn)
+                saveEditedTaskBtn.style.display = "none";
             }
             
         }
@@ -151,7 +162,7 @@ const displayController = (function(){
                     const pointer = event.target.classList[1];
                     const className = "."+pointer;
                 const nodeList = document.querySelectorAll(className)
-                const itemsToexpand = Array.from(nodeList).slice(3,5);
+                const itemsToexpand = Array.from(nodeList).slice(3,6);
 
                 itemsToexpand.forEach(hideShowElements)
                 function hideShowElements(item){
@@ -189,11 +200,13 @@ const displayController = (function(){
 
 
             tasksArea.addEventListener("click",(event)=>{
-                
             if(event.target.classList[0]==="edit"){
                 const pointer = event.target.classList[1]
                 const className = "."+pointer;
                 const nodeList = document.querySelectorAll(className)
+                
+                const saveBtn = document.querySelector(`div.${pointer} .save`);
+                saveBtn.style.display = "block";
 
                 //Removing the text entries
                 const itemsToEdit = Array.from(nodeList).slice(1,6);
@@ -249,12 +262,17 @@ const displayController = (function(){
         })();
 
         (function saveInput(){
-            
-            
-            
-            
             tasksArea.addEventListener("click",(event)=>{
+                
+                
+                
                 if(event.target.classList[0]==="save"){
+                //To hide the save button that was clicked
+                const taskCount = event.target.classList[1];
+                const saveBtn = document.querySelector(`div.${taskCount} .save`);
+                saveBtn.style.display="none"
+
+                                
                 const editedTitleInput = document.querySelector("#editedtitle").value;
                 const editedDueDateInput = document.querySelector(`#editeddueDate`).value;
                 const editedDescriptionInput = document.querySelector(`#editeddescription`).value;                    
@@ -276,9 +294,9 @@ const displayController = (function(){
                 inputsList.push(description)
                 inputsList.push(priority)
                 inputsList.push(description)
+                inputsList.push(project)
 
-                const taskCount = event.target.classList[1];
-
+                //looping through all the input elements and calling the function on ones with values
                 inputsList.forEach(function(item){
                     if(item.inputValue === ""){
 
@@ -287,11 +305,27 @@ const displayController = (function(){
                         projectsArray.editTask(taskCount,item.inputType,item.inputValue)
                     }
                 })
+
+                //To remove the input and update the fields
+                displayTasks();
+                
                     
                     
                 }
             })
         })();
+
+        (function projectSwitcher(){
+            const projectsArea = document.querySelector("#projectsArea")
+            projectsArea.addEventListener("click",(event) => {
+                if(event.target.classList[0]==="project"){
+                    const currentArrayIndex = event.target.classList[1];
+                    projectsArray.switchCurrentProject(currentArrayIndex)
+                    displayTasks()
+                }
+            })
+            
+        })()
         
             
     })();
