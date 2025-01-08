@@ -6,8 +6,6 @@ const displayController = (function(){
         const inputForm = document.querySelector("#taskInput");
         inputForm.style.display = "none";
 
-
-
         const newProjectBtn = document.querySelector("#newProjectBtn");
         const sideBar = document.querySelector("#sideBar");
         const tasks = document.querySelector("#tasks")
@@ -27,6 +25,7 @@ const displayController = (function(){
                 projectsArray.storeProject(projectName,projectCounter);
                 projectCounter++;
                 displayProject();
+                projectsArray.saveToLocalStorage(taskCounter,projectCounter);
             }
         }
 
@@ -92,6 +91,7 @@ const displayController = (function(){
                 
 
                 displayTasks()
+                projectsArray.saveToLocalStorage(taskCounter,projectCounter);
             })
         })();
         
@@ -188,6 +188,7 @@ const displayController = (function(){
         (function deleteTask(){
             tasks.addEventListener("click",(event)=>{
                 if(event.target.classList[0]==="delete"){
+                    //Links the DOM and storage variable
                     const pointer = event.target.classList[1]
                     const className = "."+pointer;
                     const nodeList = document.querySelectorAll(className)
@@ -199,7 +200,10 @@ const displayController = (function(){
 
                     const taskCount = event.target.classList[1];
                     projectsArray.deleteTask(taskCount)
+                    projectsArray.saveToLocalStorage(taskCounter,projectCounter);
+
                 }
+
             
         });
 
@@ -333,9 +337,7 @@ const displayController = (function(){
 
                 //To remove the input and update the fields
                 displayTasks();
-                
-                    
-                    
+                projectsArray.saveToLocalStorage(taskCounter,projectCounter);
                 }
             })
         })();
@@ -352,5 +354,17 @@ const displayController = (function(){
             
         })()
         
+        //Using local stoage
+         function updateScreen(){
+            tasks.style.display = "grid";
+            displayTasks()
+            updateProjectList()
+         } 
+
+         function updateCounters(storedTaskCounter,storedProjectCounter){
+            taskCounter = storedTaskCounter
+            projectCounter = storedProjectCounter
             
+         }
+         return {updateScreen,updateCounters}  
     })();

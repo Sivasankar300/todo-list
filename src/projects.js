@@ -1,7 +1,8 @@
 export {projectsArrayFn as projectsArray}
+import { displayController } from "./displayController";
 
 const projectsArrayFn = (function(){
-    const projectArray = [];
+    let projectArray = [];
     let currentProjectIndex = 0;
     makeDefaultProject();
 
@@ -52,7 +53,33 @@ const projectsArrayFn = (function(){
         return currentProjectIndex;
     }
 
-    return {getArray,newProject,storeTask,getCurrentProjectArray,storeTask,deleteTask,editTask,storeProject,switchCurrentProject}
+    function saveToLocalStorage(taskCounter,projectCounter){
+        const array = JSON.stringify(projectArray);
+        const taskCounterJson = JSON.stringify(taskCounter)
+        const projectCounterJson = JSON.stringify(projectCounter)
+
+        localStorage.setItem("projectArray",array)
+        localStorage.setItem("taskCounter",taskCounterJson)
+        localStorage.setItem("projectCounter",projectCounterJson)
+    }
+
+    window.onload = function(){
+        const jsonValueOfProjectArray = localStorage.getItem("projectArray");
+        const jsonValueOfTaskCounter = localStorage.getItem("taskCounter")
+        const jsonValueOfProjectCounter = localStorage.getItem("projectCounter");
+
+        const storedProjectArray = JSON.parse(jsonValueOfProjectArray);
+        const storedTaskCounter = JSON.parse(jsonValueOfTaskCounter);
+        const storedProjectCounter = JSON.parse(jsonValueOfProjectCounter);
+
+        if(storedProjectArray !== null){
+            projectArray = storedProjectArray;
+            displayController.updateCounters(storedTaskCounter,storedProjectCounter)
+            displayController.updateScreen()
+        }
+    }
+
+    return {getArray,newProject,storeTask,getCurrentProjectArray,storeTask,deleteTask,editTask,storeProject,switchCurrentProject,saveToLocalStorage}
 })()
 
 
