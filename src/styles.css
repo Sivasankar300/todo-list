@@ -51,6 +51,38 @@
     grid-column: 1;
   }
 
-  #tasks,#taskInput{
+  #tasksArea{
     grid-column: 2;
   }
+
+  #tasksArea{
+    height:100%;
+    width:100%;
+  }
+
+#taskInput{
+    display:grid;
+    height: fit-content;
+    width: fit-content;
+    padding: 50px;
+    background-color: aqua;
+    gap:10px
+}
+#taskInputArea{
+    display:flex;
+    gap: 10px;
+    height: inherit;
+    width: inherit;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#tasks{
+    margin-top:50px
+}
+
+input,select{
+    margin-bottom: 10px;
+}
+

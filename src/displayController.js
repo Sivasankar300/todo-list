@@ -7,9 +7,12 @@ const displayController = (function(){
         inputForm.style.display = "none";
 
 
+
         const newProjectBtn = document.querySelector("#newProjectBtn");
         const sideBar = document.querySelector("#sideBar");
-        const tasksArea = document.querySelector("#tasks")
+        const tasks = document.querySelector("#tasks")
+        tasks.style.display = "none"
+        //Linking the DOM & property values of tasks
         let taskCounter = 0;
         let projectCounter = 1;
         displayProject()
@@ -48,6 +51,7 @@ const displayController = (function(){
 
             function displayInput(){
                 inputForm.style.display = "block";
+                tasks.style.display = "none"
 
             }
             
@@ -81,6 +85,12 @@ const displayController = (function(){
                 taskCounter++
 
                 projectsArray.storeTask(newTask(title,description,dueDate,priority,project,taskCount),project)
+                const taskInput = document.querySelector("#taskInput")
+                taskInput.style.display = "none"
+                tasks.style.display = "block"
+                
+                
+
                 displayTasks()
             })
         })();
@@ -156,7 +166,7 @@ const displayController = (function(){
         }
 
         (function expandTask(){
-            tasksArea.addEventListener("click",(event)=>{
+            tasks.addEventListener("click",(event)=>{
                 //Getting the name of the unique task class so the button can be associated with it's task
                 if(event.target.classList[0]==="expand"){
                     const pointer = event.target.classList[1];
@@ -176,7 +186,7 @@ const displayController = (function(){
         })();
 
         (function deleteTask(){
-            tasksArea.addEventListener("click",(event)=>{
+            tasks.addEventListener("click",(event)=>{
                 if(event.target.classList[0]==="delete"){
                     const pointer = event.target.classList[1]
                     const className = "."+pointer;
@@ -185,7 +195,7 @@ const displayController = (function(){
                     while(nodeList[0].firstChild){
                         nodeList[0].removeChild(nodeList[0].lastChild)
                     }
-                    tasksArea.removeChild(nodeList[0])
+                    tasks.removeChild(nodeList[0])
 
                     const taskCount = event.target.classList[1];
                     projectsArray.deleteTask(taskCount)
@@ -199,7 +209,7 @@ const displayController = (function(){
         (function editTask(){
 
 
-            tasksArea.addEventListener("click",(event)=>{
+            tasks.addEventListener("click",(event)=>{
             if(event.target.classList[0]==="edit"){
                 const pointer = event.target.classList[1]
                 const className = "."+pointer;
@@ -230,7 +240,7 @@ const displayController = (function(){
                             break;
                         case "project":
                             item.textContent = "project"
-                            addTextInput(item.classList[0],4)
+                            addDropDownInput(item.classList[0],4)
                     }
                     
                 })
@@ -252,6 +262,21 @@ const displayController = (function(){
 
                     itemsToEdit[index].appendChild(input)
                 }
+
+                function addDropDownInput(className,index){
+                    const input = document.createElement("select")
+                    const newClassName = "edited"+className;
+                    input.setAttribute("id",newClassName)
+                    itemsToEdit[index].appendChild(input)
+
+                    //To list the projects
+                    projectsArray.getArray().forEach(function(item){
+                    {const createItem = document.createElement("option")
+                    createItem.setAttribute("value",item.name)
+                    createItem.textContent = item.name;
+                    input.appendChild(createItem)}
+                    })
+                }
             }
 
 
@@ -262,7 +287,7 @@ const displayController = (function(){
         })();
 
         (function saveInput(){
-            tasksArea.addEventListener("click",(event)=>{
+            tasks.addEventListener("click",(event)=>{
                 
                 
                 
