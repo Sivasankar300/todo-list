@@ -5,28 +5,28 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 * {
-    margin: 0;
+  margin: 0;
 }
 body {
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 img,
 picture,
 video,
 canvas,
 svg {
-    display: block;
-    max-width: 100%;
+  display: block;
+  max-width: 100%;
 }
 input,
 button,
 textarea,
 select {
-    font: inherit;
+  font: inherit;
 }
 p,
 h1,
@@ -35,112 +35,108 @@ h3,
 h4,
 h5,
 h6 {
-    overflow-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* My own CSS reset */
 
 ul {
-    list-style-type: none; /* Remove bullets */
-    padding: 0; /* Remove padding */
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
 }
 
 textarea:focus,
 input:focus {
-    outline: none; /* Removes the outline on form Inputs */
+  outline: none; /* Removes the outline on form Inputs */
 }
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 /* CSS reset over */
 
 #container {
-    height: 100%;
-    display: grid;
-    grid-template-columns: 150px 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 150px 100%;
 }
 
 #sideBar {
-    grid-column: 1;
-    display: grid;
-    grid-template-rows: 20% 80%;
+  grid-column: 1;
+  display: grid;
+  grid-template-rows: 20% 80%;
 }
 
-
-button{
-    height:fit-content;
-    width: 100%;
+button {
+  height: fit-content;
+  width: 100%;
 }
 
-#createButtons{
-    display:grid;
-    grid-template-rows: 50% 50%;
+#createButtons {
+  display: grid;
+  grid-template-rows: 50% 50%;
 }
 
-#newProjectBtn{
-    align-self: flex-end;
+#newProjectBtn {
+  align-self: flex-end;
 }
 
-.project{
-    margin-bottom: 5px;
-}
-
-#tasksArea {
-    grid-column: 2;
+.project {
+  margin-bottom: 5px;
 }
 
 #tasksArea {
-    /* To make sure the taskInput is centered */
-    height: 100%;
-    width: 100%;
-
-    margin-left: 20px;
-    display: grid;
-    grid-template-rows: 10fr 1fr;
+  grid-column: 2;
 }
 
-#tasks{
-    display:grid;
-    grid-template-rows: repeat(auto-fill,250px);
-    grid-template-columns: 250px 250px 250px;
+#tasksArea {
+  /* To make sure the taskInput is centered */
+  height: 100%;
+  width: 100%;
 
-    column-gap: 50px;
-
-}
-
-.task{
-    height: fit-content;
-}
-
-#taskInput {
-    display: grid;
-    height: fit-content;
-    width: fit-content;
-    padding: 50px;
-    background-color: aqua;
-    gap: 10px;
-    border-radius: 10%;
-}
-#taskInputArea {
-    display: flex;
-    gap: 10px;
-    height: inherit;
-    width: inherit;
-    justify-content: center;
-    align-items: center;
+  margin-left: 20px;
+  display: grid;
+  grid-template-rows: 10fr 1fr;
 }
 
 #tasks {
-    margin-top: 50px;
-    width: 250px;
+  display: grid;
+  grid-template-rows: repeat(auto-fill, 250px);
+  grid-template-columns: 250px 250px 250px;
+
+  column-gap: 50px;
+}
+
+.task {
+  height: fit-content;
+}
+
+#taskInput {
+  display: grid;
+  height: fit-content;
+  width: fit-content;
+  padding: 50px;
+  background-color: aqua;
+  gap: 10px;
+  border-radius: 10%;
+}
+#taskInputArea {
+  display: flex;
+  gap: 10px;
+  height: inherit;
+  width: inherit;
+  justify-content: center;
+  align-items: center;
+}
+
+#tasks {
+  margin-top: 50px;
+  width: 250px;
 }
 
 input,
 select {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
-
-
