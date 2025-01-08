@@ -87,7 +87,7 @@ const displayController = (function(){
                 projectsArray.storeTask(newTask(title,description,dueDate,priority,project,taskCount),project)
                 const taskInput = document.querySelector("#taskInput")
                 taskInput.style.display = "none"
-                tasks.style.display = "block"
+                tasks.style.display = "grid"
                 
                 
 

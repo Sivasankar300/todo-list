@@ -1,88 +1,146 @@
-    /*
+/*
     Josh's Custom CSS Reset
     https://www.joshwcomeau.com/css/custom-css-reset/
     */
-    *, *::before, *::after {
-        box-sizing: border-box;
-    }
-    * {
-        margin: 0;
-    }
-    body {
-        line-height: 1.5;
-        -webkit-font-smoothing: antialiased;
-    }
-    img, picture, video, canvas, svg {
-        display: block;
-        max-width: 100%;
-    }
-    input, button, textarea, select {
-        font: inherit;
-    }
-    p, h1, h2, h3, h4, h5, h6 {
-        overflow-wrap: break-word;
-    }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+}
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
 
-    /* My own CSS reset */
+/* My own CSS reset */
 
-    ul{
+ul {
     list-style-type: none; /* Remove bullets */
     padding: 0; /* Remove padding */
-    }
+}
 
-    textarea:focus, input:focus{
-        outline: none; /* Removes the outline on form Inputs */
-    }
+textarea:focus,
+input:focus {
+    outline: none; /* Removes the outline on form Inputs */
+}
 
-    html,body{
-        height:100%;
-        
-    }
+html,
+body {
+    height: 100%;
+}
 
-  /* CSS reset over */
+/* CSS reset over */
 
-  #container{
-    height:100%;
-    display:grid;
-    grid-template-columns: 20% 80%;
-  }
+#container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 150px 100%;
+}
 
-  #sideBar{
+#sideBar {
     grid-column: 1;
-  }
+    display: grid;
+    grid-template-rows: 20% 80%;
+}
 
-  #tasksArea{
-    grid-column: 2;
-  }
 
-  #tasksArea{
-    height:100%;
-    width:100%;
-  }
+button{
+    height:fit-content;
+    width: 100%;
+}
 
-#taskInput{
+#createButtons{
     display:grid;
+    grid-template-rows: 50% 50%;
+}
+
+#newProjectBtn{
+    align-self: flex-end;
+}
+
+.project{
+    margin-bottom: 5px;
+}
+
+#tasksArea {
+    grid-column: 2;
+}
+
+#tasksArea {
+    /* To make sure the taskInput is centered */
+    height: 100%;
+    width: 100%;
+
+    margin-left: 20px;
+    display: grid;
+    grid-template-rows: 10fr 1fr;
+}
+
+#tasks{
+    display:grid;
+    grid-template-rows: repeat(auto-fill,250px);
+    grid-template-columns: 250px 250px 250px;
+
+    column-gap: 50px;
+
+}
+
+.task{
+    height: fit-content;
+}
+
+#taskInput {
+    display: grid;
     height: fit-content;
     width: fit-content;
     padding: 50px;
     background-color: aqua;
-    gap:10px
+    gap: 10px;
+    border-radius: 10%;
 }
-#taskInputArea{
-    display:flex;
+#taskInputArea {
+    display: flex;
     gap: 10px;
     height: inherit;
     width: inherit;
     justify-content: center;
     align-items: center;
-    
 }
 
-#tasks{
-    margin-top:50px
+#tasks {
+    margin-top: 50px;
+    width: 250px;
 }
 
-input,select{
+input,
+select {
     margin-bottom: 10px;
 }
+
 
